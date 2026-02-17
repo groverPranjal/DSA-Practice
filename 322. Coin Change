@@ -1,0 +1,23 @@
+class Solution {
+    Integer[][] dp;
+    public int coinChange(int[] coins, int cap) {
+        int n=coins.length;
+        dp=new Integer[n+1][cap+1];
+        int ans=solve(coins,n-1,cap);
+        return ans==(int)1e9?-1:ans;
+    }
+    public int solve(int[] coins,int i,int cap){
+        if(i<0){
+            if(cap==0) return 0;
+            return (int)1e9;
+        }
+        if(dp[i][cap]!=null) return dp[i][cap];
+        int notPic=solve(coins,i-1,cap);
+        int Pic=(int)1e9;
+        if(cap>=coins[i]){
+            Pic=1+solve(coins,i,cap-coins[i]);
+        }
+        return dp[i][cap]=Math.min(Pic,notPic);
+
+    }
+}
