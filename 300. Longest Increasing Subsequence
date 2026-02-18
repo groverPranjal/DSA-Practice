@@ -1,0 +1,21 @@
+Approch 1: LCS DP
+class Solution {
+    Integer[][] dp;
+    public int lengthOfLIS(int[] nums) {
+        int n=nums.length;
+        HashSet<Integer> set=new HashSet<>();
+        for(int i:nums) set.add(i);
+        int[] arr=new int[set.size()];
+        int idx=0;
+        for(int i:set) arr[idx++]=i;
+        dp=new Integer[n+1][idx+1];
+        Arrays.sort(arr);
+        return solve(nums,arr,n-1,idx-1);
+    }
+    public int solve(int[] nums,int[] arr,int i,int j){
+        if(i<0 || j<0) return 0;
+        if(dp[i][j]!=null) return dp[i][j];
+        if(nums[i]==arr[j]) return dp[i][j]=1+solve(nums,arr,i-1,j-1);
+        else return dp[i][j]=Math.max(solve(nums,arr,i-1,j),solve(nums,arr,i,j-1));
+    }
+}
