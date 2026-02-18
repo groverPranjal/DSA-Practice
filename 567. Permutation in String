@@ -1,0 +1,65 @@
+Brute Force: TLE 
+class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        return solve(s1.toCharArray(),0,s2);
+    }
+    public boolean solve(char[] c,int i,String s2){
+        if(i==c.length){
+            String pem=new String(c);
+            return s2.contains(pem);
+        }
+        for(int j=i;j<c.length;j++){
+            swap(c,i,j);
+            if(solve(c,i+1,s2)) return true;
+            swap(c,i,j);
+        }
+        return false;
+    }
+    public void swap(char[] c,int i,int j){
+        char temp=c[i];
+        c[i]=c[j];
+        c[j]=temp;
+    }
+}
+Approch 2:
+class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        int n=s1.length();
+        int m=s2.length();
+        if(n>m) return false;
+        char[] s1Sorted=s1.toCharArray();
+        Arrays.sort(s1Sorted);
+        for(int i=0;i<=m-n;i++){
+            String sub=s2.substring(i,i+n);
+            char[] subSorted=sub.toCharArray();
+            Arrays.sort(subSorted);
+            if (Arrays.equals(subSorted, s1Sorted)) return true;
+        }
+        return false;
+
+    }
+}
+Approch 3: Sliding window
+class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        int[] freq1=new int[26];
+        int[] freq2=new int[26];
+        int n=s1.length();
+        int m=s2.length();
+        if(n>m) return false;
+        for(char c:s1.toCharArray()) freq1[c-'a']++;
+        int i=0;  // left side
+        int j=0; // right side;
+        while(j<m){
+            char c=s2.charAt(j);
+            freq2[c-'a']++;
+            if(j-i+1>n){
+                freq2[s2.charAt(i)-'a']--;
+                i++;
+            }
+            if(Arrays.equals(freq1,freq2)) return true;
+            j++;
+        }
+        return false;
+    }
+}
