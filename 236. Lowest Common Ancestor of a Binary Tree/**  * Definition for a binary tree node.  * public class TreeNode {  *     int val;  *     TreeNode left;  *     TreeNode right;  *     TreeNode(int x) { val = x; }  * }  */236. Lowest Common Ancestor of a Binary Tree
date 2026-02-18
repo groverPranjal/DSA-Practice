@@ -1,0 +1,32 @@
+Approch 1: Brute Force
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        ArrayList<TreeNode> path1=new ArrayList<>();
+        ArrayList<TreeNode> path2=new ArrayList<>();
+        getPath(root,p,path1);
+        getPath(root,q,path2);
+        int i=0;
+        for(;i<path1.size() && i<path2.size();i++) if(path1.get(i)!=path2.get(i)) break;
+        return path1.get(i-1);
+    }
+    public boolean getPath(TreeNode root,TreeNode p,ArrayList<TreeNode> ans){
+        if(root==null) return false;
+        ans.add(root);
+        if(root.val==p.val) return true;
+        if(getPath(root.left,p,ans)|| getPath(root.right,p,ans)) return true;
+        ans.remove(ans.size()-1);
+        return false;
+    }
+}
+Approch 2: More Otimized Less SC
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null) return null;
+        if(root==p || root==q) return root;
+        TreeNode left=lowestCommonAncestor(root.left,p,q);
+        TreeNode right=lowestCommonAncestor(root.right,p,q);
+        if(left!=null && right!=null) return root;
+        return (left!=null)?left:right;
+    }
+}
