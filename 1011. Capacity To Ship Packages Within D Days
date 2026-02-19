@@ -1,0 +1,28 @@
+class Solution {
+    public int shipWithinDays(int[] weights, int days) {
+        int low=0;
+        int high=0;
+        for(int i:weights){
+            low=Math.max(i,low);
+            high+=i;
+        }
+        while(low<high){
+            int mid=low+(high-low)/2;
+            if(canShip(mid,weights,days)) high=mid; // try low 
+            else low=mid+1; // increase cap;
+        }
+        return low;
+    }
+    public boolean canShip(int cap,int[] wg,int days){
+        int curweight=0;
+        int curDays=1;
+        for(int w:wg){
+            if(curweight+w>cap){
+                curDays++;
+                curweight=0;
+            }
+            curweight+=w;
+        }
+        return curDays<=days;
+    }
+}
