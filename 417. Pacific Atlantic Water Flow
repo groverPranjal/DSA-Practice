@@ -1,0 +1,31 @@
+class Solution {
+    public List<List<Integer>> pacificAtlantic(int[][] h) {
+        List<List<Integer>> ans=new ArrayList<>();
+        if(h==null || h.length==0 || h[0].length==0) return ans;
+        int n=h.length;
+        int m=h[0].length;
+        boolean pacVis[][]=new boolean[n][m];
+        boolean atlVis[][]=new boolean[n][m];
+        for(int i=0;i<n;i++){
+            dfs(h,pacVis,i,0,Integer.MIN_VALUE);
+            dfs(h,atlVis,i,m-1,Integer.MIN_VALUE);
+        }
+        for(int j=0;j<m;j++){
+            dfs(h,pacVis,0,j,Integer.MIN_VALUE);
+            dfs(h,atlVis,n-1,j,Integer.MIN_VALUE);
+        }
+        for(int i=0;i<n;i++) for(int j=0;j<m;j++) if(pacVis[i][j]==true && atlVis[i][j]==true)  ans.add(Arrays.asList(i,j));
+        return ans;
+    }
+    public void dfs(int[][] h,boolean[][] vis,int i,int j,int prevHeight){
+        int n=h.length;
+        int m=h[0].length;
+        if(i<0 || j<0 || i>=n || j>=m || vis[i][j]==true || h[i][j]<prevHeight) return;
+        vis[i][j]=true;
+        dfs(h,vis,i-1,j,h[i][j]);
+        dfs(h,vis,i+1,j,h[i][j]);
+        dfs(h,vis,i,j-1,h[i][j]);
+        dfs(h,vis,i,j+1,h[i][j]);
+        
+    }
+}
