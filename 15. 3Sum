@@ -1,0 +1,72 @@
+Approch 1: Brute force: TC:o(n3)
+import java.util.*;
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        Set<List<Integer>> set = new HashSet<>();
+        int n = nums.length;
+
+        for (int i = 0; i < n - 2; i++) {
+            for (int j = i + 1; j < n - 1; j++) {
+                for (int k = j + 1; k < n; k++) {
+
+                    if (nums[i] + nums[j] + nums[k] == 0) {
+                        List<Integer> triplet = 
+                            Arrays.asList(nums[i], nums[j], nums[k]);
+
+                        Collections.sort(triplet);  // avoid duplicates
+                        set.add(triplet);
+                    }
+                }
+            }
+        }
+
+        return new ArrayList<>(set);
+    }
+}
+Approch 2: TC o(n2) sc- o(n)
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        Set<List<Integer>> res=new HashSet<>();
+        int n=nums.length;
+        for(int i=0;i<n;i++){
+            Set<Integer> set=new HashSet<>();
+            for(int j=i+1;j<n;j++){
+                int comp= -nums[i]-nums[j];
+                if(set.contains(comp)){
+                    List<Integer> trip=Arrays.asList(nums[i],nums[j],comp);
+                    Collections.sort(trip);
+                    res.add(trip);
+                }
+                set.add(nums[j]);
+
+            }
+        }
+        return new ArrayList<>(res);
+    }
+}
+Approch 3:
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> res=new ArrayList<>();
+        Arrays.sort(nums);
+        int n=nums.length;
+        for(int i=0;i<n-2;i++){
+            if(i>0 && nums[i]==nums[i-1]) continue;
+            int left=i+1;
+            int right=n-1;
+            while(left<right){
+                int sum=nums[left]+nums[right]+nums[i];
+                if(sum==0){
+                    res.add(Arrays.asList(nums[i],nums[left],nums[right]));
+                    left++;
+                    right--;
+                    while(left<right && nums[left]==nums[left-1]) left++;
+                    while(left<right && nums[right]==nums[right+1]) right--; 
+                }
+                else if(sum>0) right--;
+                else left++;
+            }
+        }
+        return res;
+    }
+}
