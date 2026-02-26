@@ -1,0 +1,51 @@
+Approch 1:
+class Solution {
+    public boolean backspaceCompare(String s, String t) {
+        return build(s).equals(build(t));
+    }
+    public String build(String str){
+       Stack<Character>s=new Stack<>();
+       for(char c:str.toCharArray()){
+        if(c!='#') s.push(c);
+        else if(!s.isEmpty()) s.pop();
+       }
+       StringBuilder sb=new StringBuilder();
+       for(char c:s) sb.append(c);
+       return sb.toString();
+    }
+}
+Apprch 2:
+class Solution {
+    public boolean backspaceCompare(String s, String t) {
+      int i=s.length()-1;
+      int  j=t.length()-1;
+      while(true){
+        i=findLast(s,i);
+        j=findLast(t,j);
+
+        if(i>=0 && j>=0 && s.charAt(i)==t.charAt(j)){
+            j--;
+            i--;
+        }
+        else break;
+      }
+      return i==-1 && j==-1;
+    }
+    public int findLast(String s,int i){
+        int idx=i;
+        int space=0;
+        while(idx>=0){
+            if(s.charAt(idx)=='#'){
+                space++;
+                idx--;
+            }else{
+                if(space>0){
+                    space--;
+                    idx--;
+                }
+                else break;
+            }
+        }
+        return idx;
+    }
+}
