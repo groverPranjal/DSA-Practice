@@ -1,0 +1,35 @@
+Approch 1: TC-o(nlog n) SC-o(n)
+class Solution {
+    public int findUnsortedSubarray(int[] nums) {
+        int start=nums.length-1;
+        int end=0;
+        int[] sorted=nums.clone();
+        Arrays.sort(sorted);
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]!=sorted[i]){
+                start=Math.min(i,start);
+                end=Math.max(i,end);
+            }
+        }
+        return (end-start>0)?end-start+1:0;
+    }
+}
+Approch 2:
+class Solution {
+    public int findUnsortedSubarray(int[] nums) {
+        int start=-1;
+        int end=-2;
+        int n=nums.length;
+        int max=nums[0];
+        int min=nums[n-1];
+        for(int i=1;i<n;i++){
+            max=Math.max(max,nums[i]);
+            if(nums[i]<max) end=i;
+        }
+        for(int i=n-2;i>=0;i--){
+            min=Math.min(min,nums[i]);
+            if(nums[i]>min) start=i;
+        }
+        return end-start+1;
+    }
+}
