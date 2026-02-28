@@ -18,17 +18,24 @@ class Solution {
 
     }
 }
-Approch 2:
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
+Apprch 2:
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        ListNode curr=head;
+        Stack<Integer> s=new Stack<>();
+        while(curr!=null){
+            s.push(curr.val);
+            curr=curr.next;
+        }
+        curr=head;
+        while(curr!=null){
+            if(curr.val!=s.pop()) return false;
+            curr=curr.next;
+        }
+        return true;
+    }
+}
+Approch 3:
 class Solution {
     public boolean isPalindrome(ListNode head) {
         if(head==null|| head.next==null) return true;
