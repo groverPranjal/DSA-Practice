@@ -1,0 +1,31 @@
+class Solution {
+    Integer[][][] dp;
+     public int maximumAmount(int[][] coins) {
+        int n=coins.length;
+        int m=coins[0].length;
+        dp=new Integer[n+1][m+1][3];
+        return solve(n-1,m-1,coins,2);
+    }
+    public int solve(int i,int j,int[][] coins,int neu){
+        if(i<0 || j<0) return Integer.MIN_VALUE;
+        if(i==0 && j==0){
+            if(coins[i][j]<0 && neu>0) return 0;
+            return coins[i][j];
+        }
+        if(dp[i][j][neu]!=null) return dp[i][j][neu];
+        int take=coins[i][j]+Math.max(
+            solve(i-1,j,coins,neu),
+            solve(i,j-1,coins,neu)); 
+
+        int skip=Integer.MIN_VALUE;
+        if(coins[i][j]<0 && neu>0){
+            skip=Math.max(
+                solve(i-1,j,coins,neu-1),
+                solve(i,j-1,coins,neu-1)
+            );
+        }
+
+        return dp[i][j][neu]=Math.max(skip,take);
+        
+    }
+}
